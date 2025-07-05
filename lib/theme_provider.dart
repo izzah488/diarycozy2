@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
-import 'themes.dart';
+import 'themes.dart'; // contains lightTheme and darkTheme
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeData _currentTheme;
-  String _currentThemeName;
+  ThemeData _theme = lightTheme;
+  String _themeName = 'light';
 
-  ThemeProvider(this._currentTheme)
-      : _currentThemeName = 'light'; // default theme name
+  ThemeData get theme => _theme;
+  String get themeName => _themeName;
 
-  ThemeData get currentTheme => _currentTheme;
-  String get currentThemeName => _currentThemeName;
-
-  void setTheme(String themeName) {
-  if (themeName == 'light') {
-    _currentTheme = lightTheme;
-  } else if (themeName == 'dark') {
-    _currentTheme = darkTheme;
-  } else if (themeName == 'pink') {
-    _currentTheme = pinkTheme;
-  } else if (themeName == 'blue') {
-    _currentTheme = blueTheme;
-  } else if (themeName == 'green') {
-    _currentTheme = greenTheme;
+  void setTheme(String themeKey) {
+    if (themeKey == 'light') {
+      _theme = lightTheme;
+      _themeName = 'light';
+    } else {
+      _theme = darkTheme;
+      _themeName = 'dark';
+    }
+    notifyListeners();
   }
-  _currentThemeName = themeName;
-  notifyListeners();
-}
 
+  void toggleTheme() {
+    if (_themeName == 'light') {
+      _theme = darkTheme;
+      _themeName = 'dark';
+    } else {
+      _theme = lightTheme;
+      _themeName = 'light';
+    }
+    notifyListeners();
+  }
 }

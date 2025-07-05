@@ -9,64 +9,37 @@ class ThemeSelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
+    final themes = [
+      {'name': 'Light Theme', 'key': 'light'},
+      {'name': 'Dark Theme', 'key': 'dark'},
+      {'name': 'Soft Pink Theme', 'key': 'pink'},
+      {'name': 'Blue Theme', 'key': 'blue'},
+      {'name': 'Green Theme', 'key': 'green'},
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Theme'),
       ),
-      body: ListView(
+      body: ListView.builder(
         padding: const EdgeInsets.all(20),
-        children: [
-          ListTile(
-            title: const Text('Light Theme'),
-            trailing: themeProvider.currentThemeName == 'light'
+        itemCount: themes.length,
+        itemBuilder: (context, index) {
+          final theme = themes[index];
+          final isSelected = themeProvider.themeName == theme['key'];
+
+
+          return ListTile(
+            title: Text(theme['name']!),
+            trailing: isSelected
                 ? const Icon(Icons.check, color: Colors.green)
                 : null,
             onTap: () {
-              themeProvider.setTheme('light');
+              themeProvider.setTheme(theme['key']!);
               Navigator.pop(context);
             },
-          ),
-          ListTile(
-            title: const Text('Dark Theme'),
-            trailing: themeProvider.currentThemeName == 'dark'
-                ? const Icon(Icons.check, color: Colors.green)
-                : null,
-            onTap: () {
-              themeProvider.setTheme('dark');
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text('Soft Pink Theme'),
-            trailing: themeProvider.currentThemeName == 'pink'
-                ? const Icon(Icons.check, color: Colors.green)
-                : null,
-            onTap: () {
-              themeProvider.setTheme('pink');
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text('Blue Theme'),
-            trailing: themeProvider.currentThemeName == 'blue'
-                ? const Icon(Icons.check, color: Colors.green)
-                : null,
-            onTap: () {
-              themeProvider.setTheme('blue');
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text('Green Theme'),
-            trailing: themeProvider.currentThemeName == 'green'
-                ? const Icon(Icons.check, color: Colors.green)
-                : null,
-            onTap: () {
-              themeProvider.setTheme('green');
-              Navigator.pop(context);
-            },
-          ),
-        ],
+          );
+        },
       ),
     );
   }
